@@ -1,0 +1,13 @@
+author: MFN
+name: ${project.artifactId}
+main: xyz.awesomenetwork.schematics.Schematics
+version: ${project.version}
+api-version: 1.18
+commands:
+  schematics:
+    aliases:
+      - schematic
+      - sch
+    description: "Manage schematics"
+    permission: "schematics.use"
+    usage: "/schematics"

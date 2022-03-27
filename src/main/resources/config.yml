@@ -1,0 +1,4 @@
+# In the plugin's data folder, which folder should schematics be saved in and loaded from?
+# Default: schematics
+# This would mean the actual directory is plugins/Schematics/schematics
+schematics_save_relative_directory: schematics
