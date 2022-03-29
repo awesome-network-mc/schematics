@@ -258,10 +258,11 @@ public class SchematicHandler {
                 int finalX = centreX + (int) Math.round((relativeLocation.getX() * Math.cos(radian)) - (relativeLocation.getZ() * Math.sin(radian)));
                 int finalY = centreY + relativeLocation.getY();
                 int finalZ = centreZ + (int) Math.round((relativeLocation.getZ() * Math.cos(radian)) + (relativeLocation.getX() * Math.sin(radian)));
+                Location blockLocation = new Location(world, finalX, finalY, finalZ);
 
                 if (callback != null) {
                     // Optional callback to get what block has been pasted, and also to stop this block pasting if it returns false
-                    if (!callback.blockPaste(id, blockData, centre, relativeLocation)) continue;
+                    if (!callback.blockPaste(id, blockData, centre, blockLocation, relativeLocation)) continue;
                 }
 
                 world.getBlockAt(finalX, finalY, finalZ).setBlockData(blockData);
