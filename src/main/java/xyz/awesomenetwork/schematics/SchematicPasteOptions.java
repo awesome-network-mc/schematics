@@ -11,6 +11,7 @@ public class SchematicPasteOptions {
     private final SchematicPasteCallback callback;
 
     private int ticksToComplete = 0;
+    private boolean cancelled = false;
 
     public SchematicPasteOptions(LoadedSchematic schematic, Location centre, int rotationDegrees, SchematicPasteCallback callback, int ticksToComplete) {
         this.schematic = schematic;
@@ -44,5 +45,13 @@ public class SchematicPasteOptions {
     }
     public void setTicksToComplete(int ticksToComplete) {
         this.ticksToComplete = ticksToComplete;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

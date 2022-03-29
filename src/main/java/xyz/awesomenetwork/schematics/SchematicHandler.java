@@ -243,7 +243,7 @@ public class SchematicHandler {
             int blocksPerTick = ticksToComplete > 0 ? (int) Math.ceil(amountOfBlocks / ticksToComplete) : amountOfBlocks;
 
             for (int i = 0; i < blocksPerTick; i++) {
-                if (!it.hasNext()) {
+                if (!it.hasNext() || options.isCancelled()) {
                     cancelPasteTask(id);
                     if (callback != null) {
                         callback.finished(id);
