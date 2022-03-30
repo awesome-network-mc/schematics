@@ -67,6 +67,7 @@ public class SchematicHandler {
         add(Material.LAVA);
         add(Material.GRAVEL);
         add(Material.SAND);
+        add(Material.COCOA);
     }};
 
     private final HashMap<String, Integer> runningPasteTasks = new HashMap<>();
