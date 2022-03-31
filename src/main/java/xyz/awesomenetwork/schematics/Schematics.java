@@ -13,7 +13,7 @@ public class Schematics extends JavaPlugin {
         saveDefaultConfig();
 
         // Where schematics are saved and loaded from
-        String schematicDataFolder = "plugins/Schematics/" + getConfig().getString("schematics_save_relative_directory");
+        String schematicDataFolder = "plugins/" + getName() + "/" + getConfig().getString("schematics_save_relative_directory");
         new File(schematicDataFolder).mkdirs();
 
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
