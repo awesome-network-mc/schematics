@@ -6,7 +6,7 @@
 
     <groupId>xyz.awesomenetwork</groupId>
     <artifactId>schematics</artifactId>
-    <version>0.3.2</version>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

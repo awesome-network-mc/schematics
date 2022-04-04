@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -261,12 +262,14 @@ public class SchematicHandler {
                 int finalZ = centreZ + (int) Math.round((relativeLocation.getZ() * Math.cos(radian)) + (relativeLocation.getX() * Math.sin(radian)));
                 Location blockLocation = new Location(world, finalX, finalY, finalZ);
 
+                Block block = world.getBlockAt(finalX, finalY, finalZ);
+
                 if (callback != null) {
                     // Optional callback to get what block has been pasted, and also to stop this block pasting if it returns false
-                    if (!callback.blockPaste(id, blockData, centre, blockLocation, relativeLocation)) continue;
+                    if (!callback.blockPaste(id, block, blockData, centre, blockLocation, relativeLocation)) continue;
                 }
 
-                world.getBlockAt(finalX, finalY, finalZ).setBlockData(blockData);
+                block.setBlockData(blockData);
             }
         }, 0, 1));
     }
