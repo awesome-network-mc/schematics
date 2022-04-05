@@ -266,10 +266,14 @@ public class SchematicHandler {
 
                 if (callback != null) {
                     // Optional callback to get what block has been pasted, and also to stop this block pasting if it returns false
-                    if (!callback.blockPaste(id, block, blockData, centre, blockLocation, relativeLocation)) continue;
+                    if (!callback.prePaste(id, blockData, centre, blockLocation, relativeLocation)) continue;
                 }
 
                 block.setBlockData(blockData);
+
+                if (callback != null) {
+                    callback.postPaste(id, block, centre, blockLocation, relativeLocation);
+                }
             }
         }, 0, 1));
     }
