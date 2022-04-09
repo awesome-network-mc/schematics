@@ -1,6 +1,6 @@
 package xyz.awesomenetwork.schematics.json;
 
 public class Schematic {
-    public String name;
-    public SchematicBlock[] blocks;
+	public String name;
+	public SchematicBlock[] blocks;
 }
