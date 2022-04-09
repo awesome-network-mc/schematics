@@ -26,7 +26,7 @@ public class SchematicHandler {
     private final String schematicDataFolder;
 
     // Blocks that require another block to exist, so they need to be pasted after everything else
-    private final HashSet<Material> PICKY_BLOCKS = new HashSet<Material>() {{
+    private final Set<Material> PICKY_BLOCKS = new HashSet<Material>() {{
         add(Material.ACACIA_SIGN);
         add(Material.ACACIA_WALL_SIGN);
         add(Material.BIRCH_SIGN);
@@ -71,7 +71,7 @@ public class SchematicHandler {
         add(Material.COCOA);
     }};
 
-    private final HashMap<String, Integer> runningPasteTasks = new HashMap<>();
+    private final Map<String, Integer> runningPasteTasks = new HashMap<>();
 
     public SchematicHandler(JavaPlugin plugin, String schematicDataFolder) {
         this.plugin = plugin;
@@ -99,8 +99,8 @@ public class SchematicHandler {
     }
 
     private LoadedSchematic convertJsonToLoadedSchematic(Schematic schematic) {
-        ArrayList<LoadedSchematicBlock> blocks = new ArrayList<>();
-        ArrayList<LoadedSchematicBlock> pickyBlocks = new ArrayList<>();
+        List<LoadedSchematicBlock> blocks = new ArrayList<>();
+        List<LoadedSchematicBlock> pickyBlocks = new ArrayList<>();
 
         // Sort blocks so start of the array is lowest Y coordinate and end of the array is highest Y coordinate, useful in Sky Royale when the islands crumble
         int lowestY = Integer.MAX_VALUE;
@@ -128,7 +128,7 @@ public class SchematicHandler {
 
     // Convert schematic for storage in JSON file using GSON
     private Schematic convertLoadedSchematicToJson(LoadedSchematic loadedSchematic) {
-        ArrayList<SchematicBlock> blocks = new ArrayList<>();
+        List<SchematicBlock> blocks = new ArrayList<>();
         for (LoadedSchematicBlock block : loadedSchematic.getBlocks()) {
             SchematicBlock schematicBlock = new SchematicBlock();
 
@@ -173,7 +173,7 @@ public class SchematicHandler {
 
         World world = point1.getWorld();
 
-        HashSet<SchematicBlock> blocks = new HashSet<>();
+        Set<SchematicBlock> blocks = new HashSet<>();
         for (int worldX = xStart; worldX <= xStop; worldX++) {
             for (int worldY = yStart; worldY <= yStop; worldY++) {
                 for (int worldZ = zStart; worldZ <= zStop; worldZ++) {

@@ -1,12 +1,12 @@
 package xyz.awesomenetwork.schematics.data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LoadedSchematic {
     private final String name;
-    private final ArrayList<LoadedSchematicBlock> blocks;
+    private final List<LoadedSchematicBlock> blocks;
 
-    public LoadedSchematic(String name, ArrayList<LoadedSchematicBlock> blocks) {
+    public LoadedSchematic(String name, List<LoadedSchematicBlock> blocks) {
         this.name = name;
         this.blocks = blocks;
     }
@@ -15,7 +15,7 @@ public class LoadedSchematic {
         return name;
     }
 
-    public ArrayList<LoadedSchematicBlock> getBlocks() {
+    public List<LoadedSchematicBlock> getBlocks() {
         return blocks;
     }
 }
