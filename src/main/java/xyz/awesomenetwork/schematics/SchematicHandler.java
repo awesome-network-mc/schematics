@@ -173,6 +173,7 @@ public class SchematicHandler {
 
 		World world = point1.getWorld();
 
+		// Convert blocks to relative location around a centre ponit
 		Set<SchematicBlock> blocks = new HashSet<>();
 		for (int worldX = xStart; worldX <= xStop; worldX++) {
 			for (int worldY = yStart; worldY <= yStop; worldY++) {
@@ -241,6 +242,13 @@ public class SchematicHandler {
 		final Iterator<LoadedSchematicBlock> it = schematic.getBlocks().iterator();
 		final SchematicPasteCallback callback = options.getCallback();
 
+		/*
+		 * Block pasting is based on an overflow system
+		 * Because the amount of blocks pasted per tick can be below 1, it needs to support decimals
+		 * blockPasteAmount is increased by the amount of blocks that should be pasted per tick, and when it reaches 1 or above a block is placed, and the excess remains
+		 * e.g. blockPasteAmount = 2.5, 2 blocks are pasted and 0.5 remains for next iteration
+		 * It also supports dynamic time to complete, primarly used to increased Sky Royale island creation speed if someone joins late
+		*/
 		newPasteTask(id, plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			double blockPasteAmount = 0.0;
 
@@ -265,6 +273,7 @@ public class SchematicHandler {
 					BlockData blockData = data.getBlockData();
 					LocationNoWorld relativeLocation = data.getRelativeLocation();
 	
+					// Apply rotation to the block
 					int finalX = centreX + (int) Math.round((relativeLocation.getX() * Math.cos(radian)) - (relativeLocation.getZ() * Math.sin(radian)));
 					int finalY = centreY + relativeLocation.getY();
 					int finalZ = centreZ + (int) Math.round((relativeLocation.getZ() * Math.cos(radian)) + (relativeLocation.getX() * Math.sin(radian)));
