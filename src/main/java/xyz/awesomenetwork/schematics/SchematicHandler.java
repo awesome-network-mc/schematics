@@ -173,6 +173,7 @@ public class SchematicHandler {
 
 		World world = point1.getWorld();
 
+		// Convert blocks to relative location around a centre ponit
 		Set<SchematicBlock> blocks = new HashSet<>();
 		for (int worldX = xStart; worldX <= xStop; worldX++) {
 			for (int worldY = yStart; worldY <= yStop; worldY++) {
