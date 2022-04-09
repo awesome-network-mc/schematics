@@ -237,42 +237,51 @@ public class SchematicHandler {
         int centreZ = centre.getBlockZ();
 
         LoadedSchematic schematic = options.getSchematic();
-        final int amountOfBlocks = schematic.getBlocks().size();
+        final int totalBlockCount = schematic.getBlocks().size();
         final Iterator<LoadedSchematicBlock> it = schematic.getBlocks().iterator();
         final SchematicPasteCallback callback = options.getCallback();
-        newPasteTask(id, plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            int ticksToComplete = options.getTicksToComplete();
-            int blocksPerTick = ticksToComplete > 0 ? (int) Math.ceil(amountOfBlocks / ticksToComplete) : amountOfBlocks;
 
-            for (int i = 0; i < blocksPerTick; i++) {
-                if (!it.hasNext() || options.isCancelled()) {
-                    cancelPasteTask(id);
-                    if (callback != null) {
-                        callback.finished(id);
+        newPasteTask(id, plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            double blockPasteAmount = 0.0;
+
+            public void run() {
+                int schematicCompletionTime = options.getTicksToComplete();
+                double blocksPerTick = schematicCompletionTime > 0 ? (double) totalBlockCount / (double) schematicCompletionTime : totalBlockCount;
+                blockPasteAmount += blocksPerTick;
+
+                int blockPasteAmountInt = (int) Math.floor(blockPasteAmount);
+                blockPasteAmount -= blockPasteAmountInt;
+    
+                for (int i = 0; i < blockPasteAmountInt; i++) {
+                    if (!it.hasNext() || options.isCancelled()) {
+                        cancelPasteTask(id);
+                        if (callback != null) {
+                            callback.finished(id);
+                        }
+                        return;
                     }
-                    return;
-                }
-
-                LoadedSchematicBlock data = it.next();
-                BlockData blockData = data.getBlockData();
-                LocationNoWorld relativeLocation = data.getRelativeLocation();
-
-                int finalX = centreX + (int) Math.round((relativeLocation.getX() * Math.cos(radian)) - (relativeLocation.getZ() * Math.sin(radian)));
-                int finalY = centreY + relativeLocation.getY();
-                int finalZ = centreZ + (int) Math.round((relativeLocation.getZ() * Math.cos(radian)) + (relativeLocation.getX() * Math.sin(radian)));
-                Location blockLocation = new Location(world, finalX, finalY, finalZ);
-
-                Block block = world.getBlockAt(finalX, finalY, finalZ);
-
-                if (callback != null) {
-                    // Optional callback to get what block has been pasted, and also to stop this block pasting if it returns false
-                    if (!callback.prePaste(id, blockData, centre, blockLocation, relativeLocation)) continue;
-                }
-
-                block.setBlockData(blockData);
-
-                if (callback != null) {
-                    callback.postPaste(id, block, centre, blockLocation, relativeLocation);
+    
+                    LoadedSchematicBlock data = it.next();
+                    BlockData blockData = data.getBlockData();
+                    LocationNoWorld relativeLocation = data.getRelativeLocation();
+    
+                    int finalX = centreX + (int) Math.round((relativeLocation.getX() * Math.cos(radian)) - (relativeLocation.getZ() * Math.sin(radian)));
+                    int finalY = centreY + relativeLocation.getY();
+                    int finalZ = centreZ + (int) Math.round((relativeLocation.getZ() * Math.cos(radian)) + (relativeLocation.getX() * Math.sin(radian)));
+                    Location blockLocation = new Location(world, finalX, finalY, finalZ);
+    
+                    Block block = world.getBlockAt(finalX, finalY, finalZ);
+    
+                    if (callback != null) {
+                        // Optional callback to get what block has been pasted, and also to stop this block pasting if it returns false
+                        if (!callback.prePaste(id, blockData, centre, blockLocation, relativeLocation)) continue;
+                    }
+    
+                    block.setBlockData(blockData);
+    
+                    if (callback != null) {
+                        callback.postPaste(id, block, centre, blockLocation, relativeLocation);
+                    }
                 }
             }
         }, 0, 1));
